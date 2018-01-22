@@ -4,7 +4,7 @@
   </div>
   <div class="col-md-6">
    <div class="btn-group pull-right">
-     <a [routerLink]="['/edit-client' + id]" href="#" class="btn btn-secondary">Edit</a>
+     <a [routerLink]="['/edit-client/'+id]" class="btn btn-secondary">Edit</a>
      <button class="btn btn-danger" type="button" (click)="onDelete()">Delete</button>
    </div>
   </div>
@@ -18,9 +18,21 @@
         <h5>Client ID: {{id}}</h5>
       </div>
       <div class="col-md-4">
-        <!--Balance goes here-->
+      <h4 class="pull-right">Balance:
+        <span [class.text-danger]="hasBalance" [class.text-success]="!hasBalance"> {{client.balance | currency:"USD"}}</span>
+        <small><a (click)="showBalanceUpdateInput = !showBalanceUpdateInput" style="cursor: pointer"><i class="fa fa-pencil"></i></a></small>
+       </h4>
+        <div class="clearfix">
+          <form *ngIf="showBalanceUpdateInput" (submit)="updateBalance(id)" class="form-inline pull-right">
+            <div class="form-group">
+              <input type="text" class="form-control updateBalance" [(ngModel)]="client.balance" name="balance">
+            </div>
+            <button class="btn btn-primary" type="submit">Update</button>
+          </form>
+        </div>
       </div>
     </div>
+    <hr>
     <ul class="list-group">
       <li class="list-group-item">
        Contact Email: {{client.email}}
